@@ -1,25 +1,67 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { NavLink, BrowserRouter, Route, Switch } from 'react-router-dom';
+import MicroFrontend from './MicroFrontend';
 
-function App() {
+const { 
+  REACT_APP_CREATEREACTAPP_CRA: createreactappHost, 
+  REACT_APP_CREATEREACTAPP_GRID: createreactappGridHost, 
+} = process.env;
+
+const CreateReactApp = ({ history }) => (
+  <MicroFrontend
+    history={history}
+    host={createreactappHost}
+    name="createreactapp"
+  />
+);
+
+
+const GridApp = ({ history }) => (
+  <MicroFrontend
+    history={history}
+    host={createreactappGridHost}
+    name="createreactgridapp"
+  />
+);
+
+const Home = () => (
+  <>
+    <p>
+      Micro FE Container App 
+    </p>
+  </>
+);
+
+const App = props => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <h1>
+        This is an example of micro frontend. 
+      </h1>
+
+      <ul>
+        <li>
+          <NavLink to="/home">Container</NavLink>
+        </li>
+        <li>
+          <NavLink to="/createreactapp">
+            Micro Frontend: CRA
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/createreactgridapp">
+            Micro Frontend: CRA Grid App
+          </NavLink>
+        </li>
+      </ul>
+
+      <Switch>
+        <Route path="/home" component={Home} />
+        <Route path="/createreactapp" render={() => <CreateReactApp />} />
+        <Route path="/createreactgridapp" render={() => <GridApp />} />
+      </Switch>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
