@@ -2,7 +2,8 @@ import React from 'react';
 
 class MicroFrontend extends React.Component {
   componentDidMount() {
-    const { name, host, document } = this.props;
+    const { name, host, document, counterApp } = this.props;
+    console.log('counterApp*****', counterApp)
     const scriptId = `micro-frontend-script-${name}`;
 
     if (document.getElementById(scriptId)) {
@@ -29,10 +30,15 @@ class MicroFrontend extends React.Component {
   }
 
   renderMicroFrontend = () => {
-    const { name, window, history } = this.props;
+    const { name, window, history, counterApp, incrementContainerCounter } = this.props;
 
-    window[`render${name}`] && window[`render${name}`](`${name}-container`, history);
+    window[`render${name}`] && window[`render${name}`](`${name}-container`, history, counterApp, incrementContainerCounter);
   };
+
+  componentDidUpdate = () => {
+    console.log('componentDidUpdate', this.props)
+    this.renderMicroFrontend()
+  }
 
   render() {
     return <main id={`${this.props.name}-container`} />;
